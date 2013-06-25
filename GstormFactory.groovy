@@ -53,7 +53,16 @@ class GStormFactory {
 	
     public Gstorm getGstorm() { 
         return this.g;
-    }	
+    }
+	
+	// Remember to close the connection
+	def closeConnection() {
+	  if (sqlInstance != null) {
+	    sqlInstance.close()
+	    sqlInstance = null
+	    g = null		
+	  }
+	}
 }
 
 //
@@ -107,3 +116,11 @@ if (foundItem_2 != null)
   println "Found ${foundItem_2.name} of type ${foundItem_2.itemType}"
 else
   println "The item is indeed gone!!!"
+  
+// Close the SQL connection  
+GStormFactory.instance.closeConnection();
+
+// Prove the connection is indeed closed
+// NOTE: The below will throw an exception because the connection was closed
+// println "all records -> ${Item.all}"
+
